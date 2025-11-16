@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хоол боловсруулах систем | Дэлгэрэнгүй тайлбар</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #121212;
+            --card-bg: #1e1e1e;
+            
+            --primary-accent: #3b82f6;
+            --primary-accent-light: #60a5fa;
+            --primary-accent-glow: rgba(59, 130, 246, 0.4);
+            
+            --secondary-accent: #8b5cf6;
+            --secondary-accent-light: #a78bfa;
+            --secondary-accent-glow: rgba(139, 92, 246, 0.4);
+            
+            --tertiary-accent: #14b8a6;
+            --tertiary-accent-light: #5eead4;
+            
+            --text-primary: #f0f0f0;
+            --text-secondary: #b0b0b0;
+            
+            --border-radius: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --glass-effect: blur(12px) saturate(1.5);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 25%, rgba(139, 92, 246, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 85% 75%, rgba(20, 184, 166, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 30%);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: var(--glass-effect);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--primary-accent);
+            animation: headerPulse 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerPulse {
+            from { box-shadow: 0 0 15px var(--primary-accent-glow); }
+            to { box-shadow: 0 0 25px var(--secondary-accent-glow); }
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent), var(--tertiary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+            background-size: 200% auto;
+            animation: gradientShift 5s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .intro-text {
+            font-size: 1.15rem;
+            text-align: center;
+            margin: 2.5rem 0;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transition: var(--transition);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            will-change: transform, opacity;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent), transparent);
+            transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .info-card:hover::before {
+            left: 100%;
+        }
+
+        .info-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 12px 40px var(--primary-accent-glow);
+            border-color: var(--secondary-accent);
+        }
+
+        .info-card h2 {
+            color: var(--primary-accent-light);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-accent);
+            padding-bottom: 0.75rem;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .info-card h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--secondary-accent), var(--tertiary-accent));
+            transition: width 0.6s ease;
+        }
+
+        .info-card:hover h2::after {
+            width: 100%;
+        }
+
+        .info-card h3 {
+            color: var(--secondary-accent-light);
+            margin: 2rem 0 1rem 0;
+            font-size: 1.4rem;
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(20, 184, 166, 0.1));
+            padding: 0.4rem 1.2rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .info-card:hover h3 {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(20, 184, 166, 0.2));
+            transform: translateX(12px);
+            box-shadow: 0 4px 15px var(--secondary-accent-glow);
+        }
+
+        /* Эрхтний зурагны линкийн стайл */
+        .organ-image-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 0.5rem 0 1.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .organ-image-link::before {
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 3px rgba(255,255,255,0.3));
+            z-index: 1;
+        }
+
+        .organ-image-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .organ-image-link:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 20px var(--primary-accent-glow);
+            filter: brightness(1.1);
+        }
+
+        .organ-image-link:hover::after {
+            transform: translateX(100%);
+        }
+
+        /* Эрхтэн тус бүрийн emoji */
+        .mouth::before { content: "👄"; }
+        .esophagus::before { content: "🗣️"; }
+        .stomach::before { content: "🫃"; }
+        .small-intestine::before { content: "🧵"; }
+        .large-intestine::before { content: "🧵"; }
+        .rectum::before { content: "🚽"; }
+        .liver::before { content: "🔴"; }
+        .gallbladder::before { content: "💧"; }
+        .pancreas::before { content: "🥓"; }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.05));
+            border-left: 4px solid var(--tertiary-accent);
+            padding: 1.8rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 2rem 0;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-accent), var(--secondary-accent), var(--tertiary-accent));
+            transition: width 0.3s ease;
+        }
+
+        .highlight-box:hover::before {
+            width: 8px;
+        }
+
+        .highlight-box:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.08));
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px var(--primary-accent-glow);
+        }
+
+        .highlight-box strong {
+            color: var(--primary-accent-light);
+            text-shadow: 0 0 10px var(--primary-accent-glow);
+            font-weight: 600;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin: 1rem 0;
+            padding-left: 1.8rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--secondary-accent);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.4rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+            line-height: 1;
+        }
+
+        li:hover {
+            transform: translateX(8px);
+        }
+
+        li:hover::before {
+            transform: scale(1.5) rotate(15deg);
+            color: var(--tertiary-accent);
+        }
+
+        footer {
+            background: var(--secondary-bg);
+            padding: 3rem 0;
+            margin-top: 5rem;
+            text-align: center;
+            border-top: 2px solid var(--secondary-accent);
+            animation: footerGlow 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes footerGlow {
+            from { box-shadow: 0 -5px 15px var(--primary-accent-glow); }
+            to { box-shadow: 0 -5px 25px var(--secondary-accent-glow); }
+        }
+
+        .credits {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .credits a {
+            color: var(--primary-accent-light);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            font-weight: 500;
+        }
+
+        .credits a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+
+        .credits a:hover {
+            color: var(--secondary-accent-light);
+            text-shadow: 0 0 10px var(--secondary-accent-glow);
+        }
+
+        .credits a:hover::after {
+            width: 100%;
+        }
+
+        .credits-small {
+            font-size: 0.85rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.3);
+            padding-top: 1.5rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .credits-small strong {
+            color: var(--tertiary-accent);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 18px;
+            }
+
+            .info-card {
+                padding: 1.8rem;
+                margin: 2rem 0;
+            }
+
+            .intro-text {
+                font-size: 1.05rem;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .info-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            
+            header, footer {
+                display: none;
+            }
+            
+            .organ-image-link {
+                display: none;
+            }
+        }
+
+        /* Sequential entrance animation */
+        .info-card {
+            animation: slideInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .info-card:nth-child(1) { animation-delay: 0.1s; }
+        .info-card:nth-child(2) { animation-delay: 0.2s; }
+        .info-card:nth-child(3) { animation-delay: 0.3s; }
+        .info-card:nth-child(4) { animation-delay: 0.4s; }
+        .info-card:nth-child(5) { animation-delay: 0.5s; }
+        .info-card:nth-child(6) { animation-delay: 0.6s; }
+        .info-card:nth-child(7) { animation-delay: 0.7s; }
+        .info-card:nth-child(8) { animation-delay: 0.8s; }
+        .info-card:nth-child(9) { animation-delay: 0.9s; }
+        .info-card:nth-child(10) { animation-delay: 1.0s; }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--card-bg);
+            border-top-color: var(--primary-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Keyboard navigation styles */
+        .keyboard-nav a:focus,
+        .keyboard-nav button:focus {
+            outline: 2px solid var(--primary-accent);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px var(--primary-accent-glow);
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loader">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <header>
+        <div class="container">
+            <h1>Хоол боловсруулах систем</h1>
+            <p class="subtitle">Дэлгэрэнгүй тайлбар шинжлэх ухааны үндэслэлтэй</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="intro-text">
+            Хоол боловсруулах систем нь хоолны бодисыг задлаж, шим тэжээлийг шингээж, хаягдлыг гадагшлуулах үүрэгтэй хүний биеийн хамгийн чухал системүүдийн нэг юм. Эдгээр эрхтнүүд уялдаа холбоотойгоор ажилладаг.
+            <br><br>
+            <strong>Дэлгэрэнгүй зураг үзүүлэх:</strong> Доорх зураг үзэх товчлуур дээр дарж тухайн эрхтний зургийг болон мэдээллийг Wikimedia Commons дээрээс үзнэ үү.
+        </div>
+
+        <div class="info-card">
+            <h2>Танилцуулга</h2>
+            <div class="highlight-box">
+                <strong>Үндсэн үүргүүд:</strong>
+                <ul style="margin-top: 1rem;">
+                    <li>Хоолны бодисыг механик болон химийн задалгаа</li>
+                    <li>Шим тэжээлийг шингээх</li>
+                    <li>Энерги үүсгэх</li>
+                    <li>Хаягдлыг гадагшлуулах</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>1. Амны хөндий (Oral Cavity / Mouth)</h2>
+            <a href="https://commons.wikimedia.org/wiki/File:Mouth_anatomy-ln.svg" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="organ-image-link mouth">
+                Зураг үзэх
+            </a>
+            <p>Хоол боловсруулах үйл ажиллагаа эхлэх үүд хаалга бол амны хөндий юм. Энд зөвхөн хоолыг залгихад бэлтгэх бус, харин механик болон химийн боловсруулалтын анхны, чухал үе шатууд явагддаг.</p>
+            
+            <h3>Механик боловсруулалт</h3>
+            <p>Шүд нь хоолыг тасдах, үмхэх, жижиглэх, бутлах үүрэг гүйцэтгэдэг. Энэ нь хоолны гадаргуугийн талбайг нэмэгдүүлж, ферментүүд үйлчлэхэд илүү хялбар болгодог.</p>
+            
+            <h3>Химийн боловсруулалт</h3>
+            <p>Амны хөндийд байрлах гурван хос том шүлсний булчирхай (чихалзуурын, эрүүн доорх, хэлэн доорх) шүлс ялгаруулдаг. Шүлс нь зүгээр нэг ус биш, харин хоолыг зөөлрүүлж, бөөгнүүлэн барьцалдуулах (болюс үүсгэх) үүрэгтэй салс, нянгийн эсрэг үйлчилгээтэй лизоцим, мөн нүүрс усны боловсруулалтыг эхлүүлдэг ферментийг агуулдаг.</p>
+            
+            <div class="highlight-box">
+                <strong>Ферментүүд:</strong>
+                <p style="margin-top: 0.5rem;"><strong>Амилаза (Ptyalin):</strong> Энэхүү фермент нь цардуул зэрэг нарийн бүтэцтэй нүүрс усыг задалж, илүү энгийн чихэр болох дисахарид болгон хувиргах үйл явцыг эхлүүлдэг. Тиймээс талхыг удаан зажлахад амт нь чихэрлэг болдог.</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>2. Улаан хоолой (Esophagus)</h2>
+            <a href="https://commons.wikimedia.org/wiki/File:Esophagus,_stomach,_small_intestine.jpg" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="organ-image-link esophagus">
+                Зураг үзэх
+            </a>
+            <p>Улаан хоолой нь ойролцоогоор 25 см урттай, булчинлаг хоолой бөгөөд амны хөндийг ходоодтой холбох гүүр болдог. Энд хоол боловсруулах үйл явц явагддаггүй, зөвхөн дамжуулах үүрэгтэй.</p>
+            
+            <h3>Үйл ажиллагаа</h3>
+            <p>Хоолыг залгисны дараа улаан хоолойн ханын булчингууд долгион мэт агшиж, сулрах хөдөлгөөнийг (гүрвэлзэх хөдөлгөөн буюу перисталсис) хийснээр хоолны бөөгнөрлийг (болюс) ходоод руу шахаж оруулдаг. Энэ хөдөлгөөний ачаар хүн толгойгоо доош харуулан зогсож байсан ч хоол ходоод руу орж чаддаг. Улаан хоолойн төгсгөлд байрлах хуниас булчин (сфинктер) нь ходоодны хүчиллэг агууламжийг буцаж улаан хоолой руу орохоос сэргийлдэг.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>3. Ходоод (Stomach)</h2>
+            <a href="https://commons.wikimedia.org/wiki/File:Anatomy_of_stomach_numbered.png" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="organ-image-link stomach">
+                Зураг үзэх
+            </a>
+            <p>Ходоод нь хэвлийн дээд хэсэгт байрлах, J үсэг хэлбэрийн, уян хатан булчинлаг эрхтэн юм. Энэ нь хоолыг түр хугацаанд хадгалж, хүчтэй механик болон химийн боловсруулалтад оруулдаг.</p>
+            
+            <h3>Үйл ажиллагаа</h3>
+            <p>Ходоодны булчинлаг хана хүчтэй агшиж, хоолыг ходоодны шүүстэй сайтар хольж, зутан шиг хагас шингэн төлөвт оруулдаг бөгөөд үүнийг "химус" гэж нэрлэдэг.</p>
+            
+            <h3>Ходоодны шүүс</h3>
+            <p>Энэ нь маш хүчиллэг (pH 1.5-3.5) шингэн бөгөөд дараах зүйлсээс бүрдэнэ:</p>
+            <ul style="list-style: disc; padding-left: 2rem; margin: 1rem 0;">
+                <li><strong>Давсны хүчил (HCl):</strong> Хоол хүнсээр орж ирсэн ихэнх бактери, вирусийг устгаж, уураг задлах ферментийг идэвхжүүлдэг.</li>
+                <li><strong>Салс:</strong> Ходоодны дотор ханыг давсны хүчлийн түлэгдэлтээс хамгаалдаг зузаан, шүлтлэг давхарга үүсгэдэг.</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <strong>Ферментүүд:</strong>
+                <p style="margin-top: 0.5rem;"><strong>Пепсин:</strong> Идэвхгүй хэлбэр болох пепсиноген байдлаар ялгарч, давсны хүчлийн нөлөөгөөр идэвхтэй пепсин болж хувирдаг. Пепсин нь уургийн нарийн бүтцийг задалж, богино хэлхээт полипептид болгох үүргийг гүйцэтгэдэг уураг задлах гол фермент юм.</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>4. Нарийн гэдэс (Small Intestine)</h2>
+            <a href="https://commons.wikimedia.org/wiki/File:Blausen_0817_SmallIntestine_Anatomy.png" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="organ-image-link small-intestine">
+                Зураг үзэх
+            </a>
+            <p>Нарийн гэдэс нь ойролцоогоор 6-7 метр урттай, мушгиралдсан хоолой бөгөөд энд хоол боловсруулалтын хамгийн чухал үе шат буюу химийн эцсийн задрал, тэжээлийн бодисын шимэгдэлт бараг бүхэлдээ явагддаг.</p>
+            
+            <h3>Бүтэц ба Үйл ажиллагаа</h3>
+            <p>Нарийн гэдэс нь гурван хэсгээс бүрдэнэ:</p>
+            <ul style="list-style: disc; padding-left: 2rem; margin: 1rem 0;">
+                <li><strong>Арван хоёр нугалаа гэдэс (Duodenum):</strong> Эхний 25-30 см хэсэг. Энд ходоодноос орж ирсэн хүчиллэг химус нь нойр булчирхайн шүүсээр саармагжиж, элэгнээс ирсэн цөстэй холигддог. Химийн боловсруулалт хамгийн эрчимтэй явагддаг хэсэг.</li>
+                <li><strong>Өлөн гэдэс (Jejunum) ба Цутгалан гэдэс (Ileum):</strong> Үлдсэн урт хэсгийг эзэлнэ. Эдгээр хэсэгт тэжээлийн бодисууд (амин хүчил, өөх тосны хүчил, глюкоз, витамин, эрдэс) эцсийн байдлаар задарч, гэдэсний хананд байрлах маш олон тооны цэлмэн (villi) болон бичил цэлмэн (microvilli)-гээр дамжин цусанд шимэгддэг. Энэхүү бүтэц нь шимэгдэх гадаргуугийн талбайг асар ихээр (теннисний талбайтай тэнцэхүйц) нэмэгдүүлдэг.</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <strong>Нарийн гэдэст үйлчилдэг үндсэн дагалдах эрхтнүүд:</strong> Нойр булчирхай, элэг, цөсний хүүдий
+            </div>
+            
+            <h3>Нарийн гэдэсний үндсэн ферментүүд</h3>
+            <ul style="list-style: disc; padding-left: 2rem; margin: 1rem 0;">
+                <li><strong>Пептидаза:</strong> Уургийн богино хэлхээг (полипептид) задалж, эцсийн бүтээгдэхүүн болох амин хүчил болгодог.</li>
+                <li><strong>Липаза:</strong> Цөсний тусламжтайгаар жижиг хэсгүүд болсон өөх тосыг глицерин ба өөх тосны хүчил болгон задалдаг.</li>
+                <li><strong>Амилаза:</strong> Нүүрс усны задралыг үргэлжлүүлдэг.</li>
+                <li><strong>Сукраза, Лактаза, Мальтаза:</strong> Нийлмэл чихрүүдийг (сахароз, лактоз, мальтоз) задалж, энгийн чихэр болох глюкоз, фруктоз, галактоз болгодог.</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <h2>5. Бүдүүн гэдэс (Large Intestine)</h2>
+            <a href="https://commons.wikimedia.org/wiki/File:Blausen_0603_LargeIntestine_Anatomy.png" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="organ-image-link large-intestine">
+                Зураг үзэх
+            </a>
+            <p>Бүдүүн гэдэс нь ойролцоогоор 1.5 метр урттай, нарийн гэдсийг бодвол илүү өргөн хоолой юм. Энд хоол боловсруулах үйл явц бараг явагддаггүй.</p>
+            
+            <h3>Үндсэн үүрэг</h3>
+            <ul style="list-style: disc; padding-left: 2rem; margin: 1rem 0;">
+                <li><strong>Ус ба эрдэс бодис шимэх:</strong> Хоолны шингэн үлдэгдлээс ус, давс, электролитүүдийг эргүүлэн цусанд шимж авдаг.</li>
+                <li><strong>Өтгөн үүсгэх:</strong> Ус нь шимэгдсэний дараа үлдсэн боловсроогүй эслэг, нян болон бусад хаягдлаас өтгөнийг бүрэлдүүлэн, түр хадгалдаг.</li>
+                <li><strong>Ашигтай бактерийн орон:</strong> Бүдүүн гэдсэнд их наяд тооны ашигтай бактериуд (гэдэсний микробиом) оршдог. Эдгээр нь хүний биеийн боловсруулж чадаагүй эслэг зэргийг задалж, К аминдэм, зарим төрлийн В-ийн төрлийн аминдэмийг нийлэгжүүлдэг чухал үүрэгтэй.</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <h2>6. Шулуун гэдэс ба Анус (Rectum and Anus)</h2>
+            <a href="#" 
+               class="organ-image-link rectum">
+                Зураг үзэх
+            </a>
+            <p>Шулуун гэдэс: Бүдүүн гэдэсний хамгийн төгсгөлийн 15-20 см хэсэг. Өтгөн энд хуримтлагдахад хана нь тэлэгдэж, тархинд гадагшлуулах дохиог өгдөг.</p>
+            <p>Анус: Хоол боловсруулах замын хамгийн эцсийн нүх. Дотор ба гадна талдаа хоёр хуниас булчинтай бөгөөд эдгээр нь өтгөнийг гадагшлуулах үйл явцыг удирддаг.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>7. Дагалдах эрхтнүүд</h2>
+            <p>Эдгээр эрхтнүүдээр хоол дамждаггүй ч хоол боловсруулахад зайлшгүй шаардлагатай бодисуудыг ялгаруулж, маш чухал үүрэг гүйцэтгэдэг.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>7.1. Элэг (Liver)</h2>
+            <a href="https://commons.wikimedia.org/wiki/File:Anatomy_of_liver_and_gall_bladder.png" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="organ-image-link liver">
+                Зураг үзэх
+            </a>
+            <p>Элэг нь хүний биеийн хамгийн том дотоод эрхтэн бөгөөд 500 гаруй төрлийн үйл ажиллагаа явуулдаг "химийн үйлдвэр" юм.</p>
+            <p><strong>Хоол боловсруулалтын үүрэг:</strong> Элэгний гол үүрэг нь цөс ялгаруулах юм. Цөс нь өөх тосыг шууд задалдаг фермент биш, харин том тосны бөөгнөрлийг маш жижиг дуслууд болгон хувиргадаг (эмульс болгох). Энэ нь өөх тос задлах липаза ферментийн үйлчлэх гадаргууг асар ихээр нэмэгдүүлж, өөх тосны боловсруулалтыг үр дүнтэй болгодог.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>7.2. Цөсний хүүдий (Gallbladder)</h2>
+            <a href="https://commons.wikimedia.org/wiki/File:GallbladderAnatomy-en.svg" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="organ-image-link gallbladder">
+                Зураг үзэх
+            </a>
+            <p>Элэгний дор байрлах, лийр хэлбэртэй жижиг эрхтэн. Энэ нь элгэнд үйлдвэрлэгдсэн цөсийг хадгалж, усыг нь шимж өтгөрүүлдэг. Хоол, ялангуяа тослог хоол нарийн гэдсэнд ороход цөсний хүүдий агшиж, хуримтлуулсан цөсөө цоргоор дамжуулан арван хоёр нугалаа гэдэс рүү шахдаг.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>7.3. Нойр булчирхай (Pancreas)</h2>
+            <a href="https://commons.wikimedia.org/wiki/File:Pancreas_and_nearby_organs.jpg" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="organ-image-link pancreas">
+                Зураг үзэх
+            </a>
+            <p>Ходоодны ард байрлах, урт нарийн булчирхай. Энэ нь дотоод болон гадаад шүүрлийн үүргийг хослуулан гүйцэтгэдэг.</p>
+            <p><strong>Гадаад шүүрлийн үүрэг:</strong> Хоол боловсруулах хүчирхэг нойр булчирхайн шүүс ялгаруулж, арван хоёр нугалаа гэдэс рүү нийлүүлдэг. Энэ шүүс нь ходоодны хүчлийг саармагжуулах бикарбонат болон дараах гол ферментүүдийг агуулдаг:</p>
+            <ul style="list-style: disc; padding-left: 2rem; margin: 1rem 0;">
+                <li><strong>Амилаза:</strong> Нүүрс усыг задалдаг.</li>
+                <li><strong>Липаза:</strong> Өөх тосыг задалдаг.</li>
+                <li><strong>Трипсин ба Химотрипсин:</strong> Уургийг задалдаг.</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box" style="margin: 3rem 0;">
+            <strong>Сонирхолтой баримт:</strong> Хоол боловсруулах үйл явц 24-72 цагийн турш үргэлжилдэг бөгөөд хоолны төрлөөс хамааран ялгаатай байдаг.
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p class="credits">
+                Мэдээлэл: Эрүүл мэндийн шинжлэх ухааны үндэслэлтэй боловсролын материал<br>
+                Зохиогчийн эрх &copy; 2025 | Зургууд: Wikimedia Commons<br>
+                <a href="https://mn.wikipedia.org/wiki/Хоол_боловсруулах_систем" target="_blank" rel="noopener">Википедиа дээрх нэмэлт мэдээлэл</a>
+            </p>
+            <p class="credits-small">
+                <strong>Бүтээгч:</strong> 9е н.билгүүн<br>
+                <strong>Багийн гишүүд 9e:</strong><br>
+                н.билгүүн | инжир | эрдэнэбилэг | билгүүнтамир | ананд | халиун
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Hide loading screen
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('hide');
+            }, 300);
+        });
+
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.style.setProperty('--primary-bg', '#0a0a0a');
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Enhanced link handling
+        document.querySelectorAll('.organ-image-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Add visual feedback
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 100);
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.info-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Keyboard navigation improvements
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                // Close any open modals or overlays
+                console.log('Escape key pressed');
+            }
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-nav');
+            }
+        });
+
+        // Remove keyboard nav class on mouse interaction
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-nav');
+        });
+
+        // Performance: Reduce motion if user prefers
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.style.setProperty('--transition', 'none');
+            const style = document.createElement('style');
+            style.textContent = `
+                * {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html>
